@@ -1,48 +1,64 @@
-# data_visualization_app
+# NEXUS COMMAND — Real-Time Data Visualization Platform
 
-This template should help get you started developing with Vue 3 in Vite.
+A high-performance real-time analytics dashboard built with **Vue 3**, **TypeScript**, and **Apache ECharts**.
 
-## Recommended IDE Setup
+## 🚀 Features
 
-[VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+- **Real-Time Data Streaming**: Simulates live cybersecurity/DevOps telemetry with sub-second updates.
+- **Dynamic Charts**:
+  - **System Load**: Multi-series line chart with gradients (CPU & Memory).
+  - **Network Throughput**: Area chart showing inbound/outbound traffic.
+  - **Event Distribution**: Bar chart aggregating security events by severity.
+- **Interactive Controls**:
+  - Global Pause/Resume for streaming.
+  - Live data clearing.
+  - Dark/Light mode support.
+- **Live Activity Feed**: Animated, color-coded event table with real-time severity indicators.
+- **Performance Optimized**: Uses throttled updates, bounded history buffers, and shallow reactivity for charts.
 
-## Recommended Browser Setup
+## 🛠 Tech Stack
 
-- Chromium-based browsers (Chrome, Edge, Brave, etc.):
-  - [Vue.js devtools](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd)
-  - [Turn on Custom Object Formatter in Chrome DevTools](http://bit.ly/object-formatters)
-- Firefox:
-  - [Vue.js devtools](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
-  - [Turn on Custom Object Formatter in Firefox DevTools](https://fxdx.dev/firefox-devtools-custom-object-formatters/)
+- **Framework**: Vue 3 (Composition API)
+- **State Management**: Pinia
+- **Charts**: Apache ECharts (`vue-echarts`)
+- **Styling**: Vanilla CSS with Design Tokens
+- **Language**: TypeScript
 
-## Type Support for `.vue` Imports in TS
+## 🏗 Architecture & Design Decisions
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
+### Data Streaming Approach
+The platform uses a custom `useDataStream` composable that drives a centralized Pinia store. It uses a synthetic data generator to emit typed payloads every 1000ms.
 
-## Customize configuration
+### Rendering Optimization
+1. **Bounded Buffers**: History arrays are capped at 100 points to prevent memory leaks over time.
+2. **Shallow Reactivity**: Large chart option objects are computed to prevent Vue from performing deep recursive tracking on heavy ECharts configurations.
+3. **Throttled Updates**: The dashboard updates at a fixed interval to balance visual smoothness with CPU usage.
+4. **Transition Groups**: The activity feed uses Vue's `<TransitionGroup>` for efficient DOM manipulation during live item injection.
 
-See [Vite Configuration Reference](https://vite.dev/config/).
+### State Management Strategy
+- **Dashboard Store**: Handles the "hot" streaming data, history buffering, and event logs.
+- **Settings Store**: Persists user preferences like theme and refresh rates.
 
-## Project Setup
+### Resilience
+- The UI gracefully handles empty states and provides feedback when the stream is paused.
+- Data models are strictly typed to prevent runtime errors from malformed synthetic data.
 
-```sh
-pnpm install
-```
+## 🏁 Setup Instructions
 
-### Compile and Hot-Reload for Development
+1. **Install Dependencies**:
+   ```bash
+   pnpm install
+   ```
 
-```sh
-pnpm dev
-```
+2. **Run Development Server**:
+   ```bash
+   pnpm run dev
+   ```
 
-### Type-Check, Compile and Minify for Production
+3. **Build for Production**:
+   ```bash
+   pnpm run build
+   ```
 
-```sh
-pnpm build
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-pnpm lint
-```
+---
+Built by Antigravity
