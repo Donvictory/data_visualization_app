@@ -19,16 +19,19 @@ useDataStream();
 const fleetTrend = computed(() => {
   const history = dashboard.metrics.history.activeVehicles;
   if (history.length < 2) return 0;
-  const last = history[history.length - 1].value;
-  const prev = history[history.length - 2].value;
+  const last = history[history.length - 1]?.value ?? 0;
+  const prev = history[history.length - 2]?.value ?? 1;
   return Number(((last - prev) / (prev || 1) * 100).toFixed(1));
 });
 
 const successTrend = computed(() => {
   const history = dashboard.metrics.history.deliverySuccess;
   if (history.length < 2) return 0;
-  return Number((history[history.length - 1].value - history[history.length - 2].value).toFixed(1));
+  const last = history[history.length - 1]?.value ?? 0;
+  const prev = history[history.length - 2]?.value ?? 0;
+  return Number((last - prev).toFixed(1));
 });
+
 
 const toggleStream = () => dashboard.toggleStreaming();
 const clearLogs = () => dashboard.clearData();

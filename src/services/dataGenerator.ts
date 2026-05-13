@@ -31,17 +31,17 @@ export const generateDeliveryMetric = (): DeliveryMetric => {
 
 export const generateLogisticsEvent = (): LogisticsEvent => {
   const id = Math.random().toString(36).substring(2, 9);
-  const type = EVENT_TYPES[Math.floor(Math.random() * EVENT_TYPES.length)];
-  const location = LOCATIONS[Math.floor(Math.random() * LOCATIONS.length)];
-  const vehicleId = VEHICLES[Math.floor(Math.random() * VEHICLES.length)];
-  const route = ROUTES[Math.floor(Math.random() * ROUTES.length)];
+  const type = EVENT_TYPES[Math.floor(Math.random() * EVENT_TYPES.length)] as LogisticsEvent['type'];
+  const location = LOCATIONS[Math.floor(Math.random() * LOCATIONS.length)]!;
+  const vehicleId = VEHICLES[Math.floor(Math.random() * VEHICLES.length)]!;
+  const route = ROUTES[Math.floor(Math.random() * ROUTES.length)]!;
   
   let status: LogisticsStatus = 'optimal';
   if (type === 'Delay') status = 'delayed';
   if (type === 'Alert') status = 'critical';
   if (type === 'Maintenance') status = 'maintenance';
 
-  const messages: Record<typeof type, string> = {
+  const messages: Record<LogisticsEvent['type'], string> = {
     Arrival: `${vehicleId} arrived at ${location} via ${route}`,
     Departure: `${vehicleId} departed from ${location} on route ${route}`,
     Delay: `${vehicleId} delayed at ${location} due to traffic/weather`,
@@ -60,4 +60,5 @@ export const generateLogisticsEvent = (): LogisticsEvent => {
     message: messages[type],
   };
 };
+
 
