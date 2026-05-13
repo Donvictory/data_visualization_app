@@ -38,7 +38,7 @@ const clearLogs = () => dashboard.clearData();
   <main class="dashboard-page">
     <header class="dashboard-header">
       <div class="header-left">
-        <h1>NEXUS <span class="accent">LOGISTICS</span></h1>
+        <h1>SYNTRA <span class="accent">LOGISTICS</span></h1>
         <p class="subtitle">Global Fleet Operations & Supply Chain Intelligence</p>
       </div>
       

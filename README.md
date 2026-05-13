@@ -1,19 +1,20 @@
-# NEXUS COMMAND — Real-Time Data Visualization Platform
+# SYNTRA LOGISTICS — Real-Time Data Visualization Platform
 
 A high-performance real-time analytics dashboard built with **Vue 3**, **TypeScript**, and **Apache ECharts**.
 
 ## 🚀 Features
 
-- **Real-Time Data Streaming**: Simulates live cybersecurity/DevOps telemetry with sub-second updates.
+- **Real-Time Data Streaming**: Simulates live logistics telemetry (GPS, status, efficiency) with sub-second updates.
 - **Dynamic Charts**:
-  - **System Load**: Multi-series line chart with gradients (CPU & Memory).
-  - **Network Throughput**: Area chart showing inbound/outbound traffic.
-  - **Event Distribution**: Bar chart aggregating security events by severity.
+  - **Fleet Activity & Reliability**: Multi-axis line chart tracking active vehicles and success rates.
+  - **Efficiency Trends**: Area chart showing fuel consumption vs transit times.
+  - **Status Distribution**: Bar chart aggregating vehicle states (Optimal, Delayed, Alert).
 - **Interactive Controls**:
   - Global Pause/Resume for streaming.
-  - Live data clearing.
+  - Real-time reset.
   - Dark/Light mode support.
-- **Live Activity Feed**: Animated, color-coded event table with real-time severity indicators.
+- **Live Activity Feed**: Animated, color-coded logistics event table with real-time status indicators.
+
 - **Performance Optimized**: Uses throttled updates, bounded history buffers, and shallow reactivity for charts.
 
 ## 🛠 Tech Stack
