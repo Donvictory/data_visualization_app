@@ -117,6 +117,4 @@ const options = computed<EChartsOption>(() => {
   </div>
 </template>
 
-<style scoped>
-</style>
-
+<style scoped></style>
