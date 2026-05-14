@@ -2,13 +2,14 @@
 import { computed } from 'vue';
 import BaseChart from './BaseChart.vue';
 import { useDashboardStore } from '../../stores/dashboard';
-import { useSettingsStore } from '../../stores/settings';
+import type { EChartsOption } from 'echarts';
 
 const dashboard = useDashboardStore();
 const settings = useSettingsStore();
 
-const options = computed(() => {
+const options = computed<EChartsOption>(() => {
   const counts = {
+
     optimal: 0,
     delayed: 0,
     critical: 0,
@@ -71,5 +72,5 @@ const options = computed(() => {
 </template>
 
 <style scoped>
-/* Pure Tailwind used */
 </style>
+

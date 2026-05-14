@@ -14,8 +14,8 @@ import ActivityFeed from '../components/feed/ActivityFeed.vue';
 const dashboard = useDashboardStore();
 const settings = useSettingsStore();
 
-// Initialize data stream
 useDataStream();
+
 
 const fleetTrend = computed(() => {
   const history = dashboard.metrics.history.activeVehicles;
@@ -39,10 +39,9 @@ const clearLogs = () => dashboard.clearData();
 
 <template>
   <main class="min-h-screen bg-background-primary text-text-primary overflow-x-hidden">
-    <!-- Centered Container with consistent side padding -->
     <div class="w-full max-w-[1400px] mx-auto px-4 py-6 sm:px-6 lg:px-8 md:py-8 space-y-6 md:space-y-8 box-border">
-      <!-- Header -->
       <header class="flex flex-col lg:flex-row justify-between items-center lg:items-center gap-6 text-center lg:text-left">
+
         <div class="space-y-1 w-full lg:w-auto">
           <h1 class="text-xl md:text-2xl font-black tracking-tighter">
             SYNTRA <span class="text-accent-primary">LOGISTICS</span>
@@ -88,10 +87,9 @@ const clearLogs = () => dashboard.clearData();
         </div>
       </header>
 
-      <!-- Content Grid -->
       <div class="grid gap-6">
-        <!-- Top Row: Metrics -->
         <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+
           <MetricCard 
             title="ACTIVE FLEET" 
             :value="dashboard.metrics.fleet.activeVehicles" 
@@ -123,8 +121,8 @@ const clearLogs = () => dashboard.clearData();
           />
         </section>
 
-        <!-- Middle Row: Charts -->
         <section class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+
           <div class="lg:col-span-2 h-[350px] md:h-[450px] bg-background-card/30 rounded-xl border border-white/5 p-4">
             <LineChart />
           </div>
@@ -137,8 +135,8 @@ const clearLogs = () => dashboard.clearData();
         </section>
 
 
-        <!-- Bottom Row: Activity Feed -->
         <section class="h-[450px] md:h-[550px] overflow-hidden">
+
           <ActivityFeed />
         </section>
       </div>
@@ -149,5 +147,5 @@ const clearLogs = () => dashboard.clearData();
 
 
 <style>
-/* No scoped styles - pure Tailwind used above */
 </style>
+

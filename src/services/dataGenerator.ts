@@ -4,7 +4,7 @@ const EVENT_TYPES = ['Arrival', 'Departure', 'Delay', 'Maintenance', 'Alert'] as
 const LOCATIONS = ['Hamburg Hub', 'Rotterdam Port', 'Berlin Center', 'Munich Logistics Park', 'Antwerp Terminal', 'Dover Crossing'];
 const ROUTES = ['EU-901', 'EU-442', 'SEA-77', 'AIR-55', 'TR-102'];
 const VEHICLES = ['TRK-88', 'TRK-12', 'SHP-01', 'VAN-99', 'TRK-45'];
-const STATUSES: LogisticsStatus[] = ['optimal', 'delayed', 'critical', 'maintenance', 'info'];
+
 
 export const generateFleetMetrics = (prev?: FleetMetrics): FleetMetrics => {
   const walk = (val: number, min: number, max: number, step: number) => {

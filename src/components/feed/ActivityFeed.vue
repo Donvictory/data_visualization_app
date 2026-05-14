@@ -15,8 +15,8 @@ const formatTime = (timestamp: number) => {
 
 <template>
   <div class="bg-background-card border border-white/10 rounded-xl overflow-hidden flex flex-col h-full">
-    <!-- Header -->
     <div class="flex justify-between items-center p-4 border-b border-white/5">
+
       <h3 class="text-sm font-medium tracking-wider uppercase text-text-primary">Global Logistics Feed</h3>
       <div class="flex items-center gap-2 text-[10px] font-medium text-text-secondary bg-white/5 px-2 py-1 rounded">
         <span class="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></span>
@@ -24,9 +24,9 @@ const formatTime = (timestamp: number) => {
       </div>
     </div>
     
-    <!-- Table Container -->
     <div class="w-full overflow-x-auto overflow-y-auto flex-grow scrollbar-thin">
       <table class="w-full min-w-[800px] border-collapse text-xs md:text-sm">
+
         <thead class="sticky top-0 bg-background-card/95 backdrop-blur z-10">
           <tr class="text-text-muted border-b border-white/5 uppercase text-[10px] tracking-widest font-medium">
             <th class="text-left px-5 py-3">Time</th>
@@ -96,8 +96,8 @@ const formatTime = (timestamp: number) => {
   transform: translateX(10px);
 }
 
-/* Custom Scrollbar for better aesthetics */
 .scrollbar-thin::-webkit-scrollbar {
+
   width: 4px;
   height: 4px;
 }

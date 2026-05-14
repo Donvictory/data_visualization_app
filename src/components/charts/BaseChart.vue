@@ -11,8 +11,8 @@ import {
   DataZoomComponent
 } from 'echarts/components';
 import VChart from 'vue-echarts';
+import type { EChartsOption } from 'echarts';
 
-// Register ECharts modules
 use([
   CanvasRenderer,
   LineChart,
@@ -27,10 +27,12 @@ use([
   DataZoomComponent
 ]);
 
+
 defineProps<{
-  options: any;
+  options: EChartsOption;
   theme?: string;
 }>();
+
 </script>
 
 <template>
@@ -46,6 +48,6 @@ defineProps<{
 </template>
 
 <style scoped>
-/* Pure Tailwind used */
 </style>
+
 

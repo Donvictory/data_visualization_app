@@ -1,15 +1,16 @@
 <script setup lang="ts">
-import { computed } from 'vue';
-import BaseChart from './BaseChart.vue';
-import { useDashboardStore } from '../../stores/dashboard';
-import { useSettingsStore } from '../../stores/settings';
+import { computed } from 'vue'
+import BaseChart from './BaseChart.vue'
+import { useDashboardStore } from '../../stores/dashboard'
+import type { EChartsOption } from 'echarts'
+import { useSettingsStore } from '@/stores/settings'
 
-const dashboard = useDashboardStore();
-const settings = useSettingsStore();
+const dashboard = useDashboardStore()
+const settings = useSettingsStore()
 
-const options = computed(() => {
-  const fleetData = dashboard.metrics.history.activeVehicles.map(p => [p.timestamp, p.value]);
-  const successData = dashboard.metrics.history.deliverySuccess.map(p => [p.timestamp, p.value]);
+const options = computed<EChartsOption>(() => {
+  const fleetData = dashboard.metrics.history.activeVehicles.map((p) => [p.timestamp, p.value])
+  const successData = dashboard.metrics.history.deliverySuccess.map((p) => [p.timestamp, p.value])
 
   return {
     backgroundColor: 'transparent',
@@ -18,34 +19,34 @@ const options = computed(() => {
       backgroundColor: 'rgba(17, 24, 39, 0.8)',
       borderColor: 'rgba(255, 255, 255, 0.1)',
       textStyle: { color: '#fff' },
-      axisPointer: { type: 'cross' }
+      axisPointer: { type: 'cross' },
     },
     legend: {
       data: ['Active Fleet', 'Success Rate'],
       textStyle: { color: '#9ca3af', fontSize: 10 },
       top: 0,
       type: 'scroll',
-      left: 'center'
+      left: 'center',
     },
     grid: {
       left: 45,
       right: 20,
       bottom: 40,
       top: 40,
-      containLabel: true
+      containLabel: true,
     },
-
 
     xAxis: {
       type: 'time',
-      boundaryGap: false,
+      boundaryGap: [0, 0],
+
       axisLine: { lineStyle: { color: '#374151' } },
-      axisLabel: { 
+      axisLabel: {
         color: '#6b7280',
         hideOverlap: true,
-        fontSize: 10
+        fontSize: 10,
       },
-      splitLine: { show: false }
+      splitLine: { show: false },
     },
     yAxis: [
       {
@@ -53,7 +54,7 @@ const options = computed(() => {
         name: 'Vehicles',
         axisLine: { lineStyle: { color: '#374151' } },
         axisLabel: { color: '#6b7280' },
-        splitLine: { lineStyle: { color: '#1f2937' } }
+        splitLine: { lineStyle: { color: '#1f2937' } },
       },
       {
         type: 'value',
@@ -62,8 +63,8 @@ const options = computed(() => {
         max: 100,
         axisLine: { lineStyle: { color: '#374151' } },
         axisLabel: { color: '#6b7280' },
-        splitLine: { show: false }
-      }
+        splitLine: { show: false },
+      },
     ],
     series: [
       {
@@ -76,13 +77,16 @@ const options = computed(() => {
         areaStyle: {
           color: {
             type: 'linear',
-            x: 0, y: 0, x2: 0, y2: 1,
+            x: 0,
+            y: 0,
+            x2: 0,
+            y2: 1,
             colorStops: [
               { offset: 0, color: 'rgba(0, 212, 255, 0.2)' },
-              { offset: 1, color: 'rgba(0, 212, 255, 0)' }
-            ]
-          }
-        }
+              { offset: 1, color: 'rgba(0, 212, 255, 0)' },
+            ],
+          },
+        },
       },
       {
         name: 'Success Rate',
@@ -92,15 +96,14 @@ const options = computed(() => {
         data: successData,
         itemStyle: { color: '#10b981' },
         lineStyle: { width: 2, type: 'dashed' },
-      }
-    ]
-  };
-});
+      },
+    ],
+  }
+})
 </script>
 
 <template>
   <div class="flex flex-col h-full w-full">
-
     <div class="flex justify-between items-center mb-4">
       <h4 class="text-[10px] md:text-xs font-medium text-text-secondary uppercase tracking-widest">
         Fleet Activity & Reliability
@@ -115,5 +118,5 @@ const options = computed(() => {
 </template>
 
 <style scoped>
-/* Pure Tailwind used */
 </style>
+
