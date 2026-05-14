@@ -22,20 +22,29 @@ const options = computed(() => {
     },
     legend: {
       data: ['Active Fleet', 'Success Rate'],
-      textStyle: { color: '#9ca3af' },
-      top: 0
+      textStyle: { color: '#9ca3af', fontSize: 10 },
+      top: 0,
+      type: 'scroll',
+      left: 'center'
     },
     grid: {
-      left: '3%',
-      right: '4%',
-      bottom: '3%',
+      left: 45,
+      right: 20,
+      bottom: 40,
+      top: 40,
       containLabel: true
     },
+
+
     xAxis: {
       type: 'time',
       boundaryGap: false,
       axisLine: { lineStyle: { color: '#374151' } },
-      axisLabel: { color: '#6b7280' },
+      axisLabel: { 
+        color: '#6b7280',
+        hideOverlap: true,
+        fontSize: 10
+      },
       splitLine: { show: false }
     },
     yAxis: [
@@ -90,38 +99,21 @@ const options = computed(() => {
 </script>
 
 <template>
-  <div class="chart-card">
-    <div class="chart-header">
-      <h4>Fleet Activity & Reliability</h4>
-      <div class="header-actions">
-        <span class="refresh-indicator"></span>
-      </div>
+  <div class="flex flex-col h-full w-full">
+
+    <div class="flex justify-between items-center mb-4">
+      <h4 class="text-[10px] md:text-xs font-medium text-text-secondary uppercase tracking-widest">
+        Fleet Activity & Reliability
+      </h4>
+
+      <div class="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></div>
     </div>
-    <BaseChart :options="options" height="320px" :theme="settings.theme" />
+    <div class="flex-grow min-h-0">
+      <BaseChart :options="options" :theme="settings.theme" />
+    </div>
   </div>
 </template>
 
-
 <style scoped>
-.chart-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border-color);
-  border-radius: 12px;
-  padding: 1.25rem;
-  box-shadow: var(--card-shadow);
-}
-
-.chart-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1rem;
-}
-
-h4 {
-  color: var(--text-secondary);
-  font-size: 0.9rem;
-  font-weight: 600;
-  text-transform: uppercase;
-}
+/* Pure Tailwind used */
 </style>

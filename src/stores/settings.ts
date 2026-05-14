@@ -2,7 +2,7 @@ import { defineStore } from 'pinia';
 
 export const useSettingsStore = defineStore('settings', {
   state: () => ({
-    theme: 'dark' as 'dark' | 'light',
+    theme: 'light' as 'dark' | 'light',
     refreshRate: 1000,
     showAnimations: true,
     timeRange: 'live' as 'live' | '1m' | '5m' | '1h',

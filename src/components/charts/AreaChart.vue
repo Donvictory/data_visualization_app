@@ -16,11 +16,18 @@ const options = computed(() => {
     tooltip: { trigger: 'axis' },
     legend: {
       data: ['Fuel (MPG)', 'Transit (Hrs)'],
-      textStyle: { color: '#9ca3af' },
-      bottom: 0
+      textStyle: { color: '#9ca3af', fontSize: 10 },
+      bottom: 0,
+      type: 'scroll',
+      left: 'center'
     },
-    grid: { left: '3%', right: '4%', bottom: '15%', containLabel: true },
-    xAxis: { type: 'time', splitLine: { show: false } },
+    grid: { left: 45, right: 20, bottom: 60, top: 20, containLabel: true },
+
+    xAxis: { 
+      type: 'time', 
+      splitLine: { show: false },
+      axisLabel: { color: '#6b7280', fontSize: 10, hideOverlap: true }
+    },
     yAxis: { type: 'value', splitLine: { lineStyle: { color: '#1f2937' } } },
     series: [
       {
@@ -47,25 +54,20 @@ const options = computed(() => {
 </script>
 
 <template>
-  <div class="chart-card">
-    <div class="chart-header">
-      <h4>Efficiency & Transit Trends</h4>
+  <div class="flex flex-col h-full w-full">
+
+    <div class="flex justify-between items-center mb-4">
+      <h4 class="text-[10px] md:text-xs font-medium text-text-secondary uppercase tracking-widest">
+        Efficiency Metrics
+      </h4>
     </div>
-    <BaseChart :options="options" height="280px" :theme="settings.theme" />
+
+    <div class="flex-grow min-h-0">
+      <BaseChart :options="options" :theme="settings.theme" />
+    </div>
   </div>
 </template>
 
-
 <style scoped>
-.chart-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border-color);
-  border-radius: 12px;
-  padding: 1.25rem;
-}
-.chart-header h4 {
-  color: var(--text-secondary);
-  font-size: 0.9rem;
-  margin-bottom: 1rem;
-}
+/* Pure Tailwind used */
 </style>

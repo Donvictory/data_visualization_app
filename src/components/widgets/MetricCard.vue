@@ -7,133 +7,65 @@ interface Props {
   unit?: string;
   trend?: number;
   sentiment?: 'positive' | 'negative' | 'neutral';
-  icon?: string;
   color?: string;
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  sentiment: 'positive'
+  sentiment: 'positive',
+  color: '#00d4ff'
 });
 
 const trendClass = computed(() => {
-  if (!props.trend) return '';
-  const isUp = props.trend > 0;
-  const isPositive = props.sentiment === 'positive' ? isUp : !isUp;
-  return isPositive ? 'trend-good' : 'trend-bad';
+  if (!props.trend) return 'text-text-muted';
+  
+  const isPositive = props.trend > 0;
+  const isGood = props.sentiment === 'positive' ? isPositive : !isPositive;
+  
+  return isGood ? 'text-green-500 bg-green-500/10' : 'text-red-500 bg-red-500/10';
 });
 
-const trendIcon = computed(() => {
-  if (!props.trend) return '';
-  return props.trend > 0 ? '↑' : '↓';
-});
+// Use for dynamic color binding
+const iconBgColor = computed(() => `${props.color}20`);
 </script>
 
 <template>
-  <div class="metric-card">
-    <div class="metric-header">
-      <span class="metric-title">{{ title }}</span>
-      <div v-if="icon" class="metric-icon" :style="{ color: color || 'var(--accent-primary)' }">
-        <span v-html="icon"></span>
+  <div class="bg-background-card border border-white/10 rounded-xl p-4 md:p-6 hover:border-white/20 transition-all group overflow-hidden">
+    <div class="flex justify-between items-start mb-4">
+      <h3 class="text-[10px] md:text-xs font-medium text-text-secondary uppercase tracking-widest truncate flex-1 pr-2">
+        {{ title }}
+      </h3>
+      <div class="metric-icon-wrapper w-8 h-8 rounded-lg flex items-center justify-center transition-transform group-hover:scale-110 flex-shrink-0">
+        <div class="metric-icon-dot w-2 h-2 rounded-full"></div>
       </div>
     </div>
-    <div class="metric-body">
-      <span class="metric-value">{{ value }}</span>
-      <span v-if="unit" class="metric-unit">{{ unit }}</span>
-    </div>
-    <div v-if="trend !== undefined" class="metric-footer">
-      <span :class="['metric-trend', trendClass]">
-        {{ trendIcon }} {{ Math.abs(trend) }}%
+    
+    <div class="flex items-baseline gap-1 overflow-hidden">
+      <span class="text-xl md:text-3xl font-medium tracking-tight truncate">
+        {{ value }}
       </span>
-      <span class="metric-period">vs last min</span>
+      <span v-if="unit" class="text-[9px] md:text-xs text-text-secondary font-medium uppercase shrink-0">
+        {{ unit }}
+      </span>
     </div>
+
+    
+    <div v-if="trend !== undefined" class="mt-4 flex flex-wrap items-center gap-2">
+      <span :class="['px-1.5 py-0.5 rounded text-[10px] md:text-xs font-medium flex items-center gap-1 shrink-0', trendClass]">
+        <span>{{ trend > 0 ? '↑' : '↓' }}</span>
+        {{ Math.abs(trend) }}%
+      </span>
+      <span class="text-[10px] text-text-muted font-medium truncate hidden sm:inline">vs last min</span>
+    </div>
+
   </div>
 </template>
 
 <style scoped>
-.metric-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border-color);
-  border-radius: 12px;
-  padding: 1.25rem;
-  box-shadow: var(--card-shadow);
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+.metric-icon-wrapper {
+  background-color: v-bind(iconBgColor);
 }
-
-.metric-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
-}
-
-.metric-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.metric-title {
-  color: var(--text-secondary);
-  font-size: 0.75rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  flex: 1;
-}
-
-.metric-icon {
-  flex-shrink: 0;
-  margin-left: 0.5rem;
-}
-
-
-.metric-value {
-  font-size: 1.875rem;
-  font-weight: 700;
-  color: var(--text-primary);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-@media (max-width: 480px) {
-  .metric-value {
-    font-size: 1.5rem;
-  }
-}
-
-
-.metric-unit {
-  font-size: 1rem;
-  color: var(--text-secondary);
-  margin-left: 0.25rem;
-}
-
-.metric-trend {
-  font-size: 0.875rem;
-  font-weight: 600;
-  padding: 0.125rem 0.375rem;
-  border-radius: 4px;
-}
-
-.trend-good {
-  color: #10b981;
-  background: rgba(16, 185, 129, 0.1);
-}
-
-.trend-bad {
-  color: #ef4444;
-  background: rgba(239, 68, 68, 0.1);
-}
-
-.metric-period {
-  color: var(--text-muted);
-  font-size: 0.75rem;
-  margin-left: 0.5rem;
+.metric-icon-dot {
+  background-color: v-bind(color);
 }
 </style>
 

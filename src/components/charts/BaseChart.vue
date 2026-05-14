@@ -11,7 +11,6 @@ import {
   DataZoomComponent
 } from 'echarts/components';
 import VChart from 'vue-echarts';
-import { ref, onMounted, onUnmounted } from 'vue';
 
 // Register ECharts modules
 use([
@@ -28,43 +27,25 @@ use([
   DataZoomComponent
 ]);
 
-interface Props {
-  options: any;
-  height?: string;
-  theme?: string;
-}
-
 defineProps<{
   options: any;
-  height?: string;
   theme?: string;
 }>();
-
-const chartRef = ref<any>(null);
-
-// Handle window resize
-const handleResize = () => {
-  chartRef.value?.resize();
-};
-
-onMounted(() => {
-  window.addEventListener('resize', handleResize);
-});
-
-onUnmounted(() => {
-  window.removeEventListener('resize', handleResize);
-});
 </script>
 
 <template>
-  <div class="chart-wrapper" :style="{ height: height || '300px' }">
-    <v-chart ref="chartRef" :option="options" :theme="theme || 'dark'" autoresize />
+  <div class="w-full h-full min-h-inherit relative">
+    <v-chart 
+      :option="options" 
+      :theme="theme" 
+
+      autoresize 
+      class="w-full h-full"
+    />
   </div>
 </template>
 
 <style scoped>
-.chart-wrapper {
-  width: 100%;
-  position: relative;
-}
+/* Pure Tailwind used */
 </style>
+

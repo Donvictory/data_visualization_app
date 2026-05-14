@@ -14,46 +14,67 @@ const formatTime = (timestamp: number) => {
 </script>
 
 <template>
-  <div class="activity-feed">
-    <div class="feed-header">
-      <h3>Global Logistics Feed</h3>
-      <div class="feed-status">
-        <span class="status-dot animate-pulse"></span>
+  <div class="bg-background-card border border-white/10 rounded-xl overflow-hidden flex flex-col h-full">
+    <!-- Header -->
+    <div class="flex justify-between items-center p-4 border-b border-white/5">
+      <h3 class="text-sm font-medium tracking-wider uppercase text-text-primary">Global Logistics Feed</h3>
+      <div class="flex items-center gap-2 text-[10px] font-medium text-text-secondary bg-white/5 px-2 py-1 rounded">
+        <span class="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></span>
         LIVE UPDATES
       </div>
     </div>
     
-    <div class="feed-container">
-      <table class="feed-table">
-        <thead>
-          <tr>
-            <th>Time</th>
-            <th>Status</th>
-            <th>Type</th>
-            <th>Vehicle</th>
-            <th>Route</th>
-            <th>Details</th>
+    <!-- Table Container -->
+    <div class="w-full overflow-x-auto overflow-y-auto flex-grow scrollbar-thin">
+      <table class="w-full min-w-[800px] border-collapse text-xs md:text-sm">
+        <thead class="sticky top-0 bg-background-card/95 backdrop-blur z-10">
+          <tr class="text-text-muted border-b border-white/5 uppercase text-[10px] tracking-widest font-medium">
+            <th class="text-left px-5 py-3">Time</th>
+            <th class="text-left px-5 py-3">Status</th>
+            <th class="text-left px-5 py-3">Type</th>
+            <th class="text-left px-5 py-3">Vehicle</th>
+            <th class="text-left px-5 py-3">Route</th>
+            <th class="text-left px-5 py-3">Details</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody class="divide-y divide-white/5">
           <TransitionGroup name="list">
-            <tr v-for="event in dashboard.events" :key="event.id">
-              <td class="time-cell">{{ formatTime(event.timestamp) }}</td>
-              <td>
-                <span :class="['badge', event.status]">
-                  {{ event.status.toUpperCase() }}
+            <tr 
+              v-for="event in dashboard.events" 
+              :key="event.id"
+              class="hover:bg-white/[0.02] transition-colors group"
+            >
+              <td class="px-5 py-3 text-text-muted font-mono whitespace-nowrap">{{ formatTime(event.timestamp) }}</td>
+              <td class="px-5 py-3">
+                <span 
+                  class="px-2 py-0.5 rounded text-[10px] font-medium uppercase tracking-tighter"
+
+                  :class="{
+                    'bg-green-500/10 text-green-500': event.status === 'optimal',
+                    'bg-yellow-500/10 text-yellow-500': event.status === 'delayed',
+                    'bg-red-500/10 text-red-500': event.status === 'critical',
+                    'bg-blue-500/10 text-blue-500': event.status === 'maintenance',
+                    'bg-slate-500/10 text-slate-400': event.status === 'info',
+                  }"
+                >
+                  {{ event.status }}
                 </span>
               </td>
-              <td class="event-type">
-                <span class="type-indicator">{{ event.type }}</span>
+              <td class="px-5 py-3">
+                <span class="text-accent-primary font-medium">{{ event.type }}</span>
               </td>
-              <td class="mono">{{ event.vehicleId }}</td>
-              <td class="mono">{{ event.route }}</td>
-              <td class="message-cell">{{ event.message }}</td>
+              <td class="px-5 py-3 font-mono text-text-secondary">{{ event.vehicleId }}</td>
+              <td class="px-5 py-3 font-mono text-text-secondary">{{ event.route }}</td>
+              <td class="px-5 py-3 text-text-primary/90 group-hover:text-text-primary transition-colors">
+                {{ event.message }}
+              </td>
             </tr>
           </TransitionGroup>
+          
           <tr v-if="dashboard.events.length === 0">
-            <td colspan="6" class="empty-state">Waiting for transit data...</td>
+            <td colspan="6" class="px-5 py-12 text-center text-text-muted italic">
+              Waiting for transit data...
+            </td>
           </tr>
         </tbody>
       </table>
@@ -62,140 +83,32 @@ const formatTime = (timestamp: number) => {
 </template>
 
 <style scoped>
-.activity-feed {
-  background: var(--bg-card);
-  border: 1px solid var(--border-color);
-  border-radius: 12px;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-}
-
-.feed-header {
-  padding: 1rem 1.25rem;
-  border-bottom: 1px solid var(--border-color);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: rgba(255, 255, 255, 0.02);
-}
-
-.feed-header h3 {
-  font-size: 1.1rem;
-  font-weight: 700;
-  color: var(--text-primary);
-}
-
-.feed-status {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: 0.75rem;
-  font-weight: 700;
-  color: #10b981;
-}
-
-.status-dot {
-  width: 8px;
-  height: 8px;
-  background: currentColor;
-  border-radius: 50%;
-  box-shadow: 0 0 8px currentColor;
-}
-
-.feed-container {
-  overflow-x: auto;
-  overflow-y: auto;
-  flex-grow: 1;
-  -webkit-overflow-scrolling: touch;
-}
-
-.feed-table {
-  width: 100%;
-  min-width: 800px; /* Ensure table doesn't get too squished on mobile */
-  border-collapse: collapse;
-  font-size: 0.875rem;
-}
-
-
-th {
-  text-align: left;
-  padding: 0.75rem 1.25rem;
-  background: var(--bg-secondary);
-  color: var(--text-secondary);
-  font-weight: 600;
-  position: sticky;
-  top: 0;
-  z-index: 10;
-  text-transform: uppercase;
-  font-size: 0.75rem;
-  letter-spacing: 0.05em;
-}
-
-td {
-  padding: 0.75rem 1.25rem;
-  border-bottom: 1px solid var(--border-color);
-  color: var(--text-primary);
-}
-
-.time-cell {
-  color: var(--text-muted);
-  font-family: 'JetBrains Mono', monospace;
-  white-space: nowrap;
-}
-
-.mono {
-  font-family: 'JetBrains Mono', monospace;
-  color: var(--accent-primary);
-  font-size: 0.8rem;
-}
-
-.message-cell {
-  color: var(--text-secondary);
-  max-width: 300px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.badge {
-  padding: 0.125rem 0.5rem;
-  border-radius: 4px;
-  font-size: 0.7rem;
-  font-weight: 700;
-  border: 1px solid transparent;
-}
-
-.optimal { background: rgba(16, 185, 129, 0.1); color: #10b981; border-color: rgba(16, 185, 129, 0.2); }
-.delayed { background: rgba(245, 158, 11, 0.1); color: #f59e0b; border-color: rgba(245, 158, 11, 0.2); }
-.critical { background: rgba(239, 68, 68, 0.1); color: #ef4444; border-color: rgba(239, 68, 68, 0.2); }
-.maintenance { background: rgba(99, 102, 241, 0.1); color: #6366f1; border-color: rgba(99, 102, 241, 0.2); }
-.info { background: rgba(148, 163, 184, 0.1); color: #94a3b8; border-color: rgba(148, 163, 184, 0.2); }
-
-.type-indicator {
-  font-weight: 600;
-  color: var(--text-primary);
-}
-
-.empty-state {
-  text-align: center;
-  padding: 3rem;
-  color: var(--text-muted);
-}
-
-/* Animations */
 .list-enter-active,
 .list-leave-active {
   transition: all 0.4s ease;
 }
 .list-enter-from {
   opacity: 0;
-  transform: translateX(-30px);
+  transform: translateX(-10px);
 }
 .list-leave-to {
   opacity: 0;
-  transform: translateX(30px);
+  transform: translateX(10px);
+}
+
+/* Custom Scrollbar for better aesthetics */
+.scrollbar-thin::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+.scrollbar-thin::-webkit-scrollbar-track {
+  background: transparent;
+}
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+}
+.scrollbar-thin::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.2);
 }
 </style>
-
